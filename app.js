@@ -9,7 +9,7 @@ var app = express() // Express app
 app.engine('html', engines.nunjucks); // Set nunjucks as the templating engine to work on documents ending with the extension html
 app.set('view engine', 'html') // Only use nunjucks on file ending with html
 app.set('views', __dirname + '/views') // Where to find the view files
-app.use(bodyParser.urlenconded({extended: true})) // Url parser configuration
+app.use(bodyParser.urlencoded({extended: true})) // Url parser configuration
 
 mongoClient.connect('mongodb://localhost:27017/hacker-news', function(err, db){
   assert.equal(null, err);
