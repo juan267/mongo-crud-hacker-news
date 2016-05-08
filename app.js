@@ -15,8 +15,18 @@ var databaseName = 'hacker-news' // Set to the mondodb database to be use
 
 mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db){
   assert.equal(null, err);
-  console.log('Succesfully connected to mongodb database')
+  console.log('Successfully connected to mongodb database')
 
+  // ROUTES ***********************************
+
+  app.get('/', function(req, res){
+    res.render('index')
+  })
+
+
+
+
+  // Error Handling and Start runnung server
   app.use(errorHandler)
 
   function errorHandler(err, req, res, next) {
