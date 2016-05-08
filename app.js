@@ -11,7 +11,9 @@ app.set('view engine', 'html') // Only use nunjucks on file ending with html
 app.set('views', __dirname + '/views') // Where to find the view files
 app.use(bodyParser.urlencoded({extended: true})) // Url parser configuration
 
-mongoClient.connect('mongodb://localhost:27017/hacker-news', function(err, db){
+var databaseName = 'hacker-news' // Set to the mondodb database to be use
+
+mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db){
   assert.equal(null, err);
   console.log('Succesfully connected to mongodb database')
 
