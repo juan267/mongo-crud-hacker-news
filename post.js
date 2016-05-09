@@ -10,14 +10,16 @@ function PostDAO(database) {
       body: "Body del post",
       author: "Juan gomez",
       created_at: new Date(),
-      votes: 1
+      votes: 1,
+      url: 'https://news.ycombinator.com/'
     },
     {
       title: "Hola soy el segundo Post",
       body: "Body del post",
       author: "Carolina Hernandez",
       created_at: new Date(),
-      votes: 1
+      votes: 1,
+      url: 'https://news.ycombinator.com/'
     }
   ]
 

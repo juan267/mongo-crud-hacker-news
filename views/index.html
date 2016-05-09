@@ -3,15 +3,40 @@
 <head>
   <meta charset="UTF-8">
   <title>Hacker News</title>
+  <link href="/static/css/styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 </head>
 <body>
-  <h1>Welcome to Expresss app yeahh!!</h1>
-
-  <ul>
-    {% for post in posts %}
-      <li>Titulo: {{post.title}}</li>
-    {% endfor %}
-  </ul>
+  <div class="container">
+    <div class="nav">
+      <div class="nav-section">
+        <div class="nav-item">
+          <strong>Hacker news |</strong>
+        </div>
+        <div class="nav-item">
+          new
+        </div>
+      </div>
+      <div class="nav-section">
+        <div class="nav-item">
+          Login
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <ul>
+        {% for post in posts %}
+        <li>
+          <span>1.<i class="fa fa-arrow-up" aria-hidden="true"></i> {{post.title}} <span class='post-url'>({{post.url}})</span></span>
+          <span class='post-details'>
+            {{post.votes}} points  |
+            By: {{post.author}}
+          </span>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
 </body>
 </html>
 

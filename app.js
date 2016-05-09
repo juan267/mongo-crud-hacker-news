@@ -10,6 +10,7 @@ var app = express() // Express app
 app.engine('html', engines.nunjucks); // Set nunjucks as the templating engine to work on documents ending with the extension html
 app.set('view engine', 'html') // Only use nunjucks on file ending with html
 app.set('views', __dirname + '/views') // Where to find the view files
+app.use('/static', express.static(__dirname + '/static')); // Use static files
 app.use(bodyParser.urlencoded({extended: true})) // Url parser configuration
 
 var databaseName = 'hacker-news' // Set to the mondodb database to be use
