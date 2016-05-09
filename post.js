@@ -33,6 +33,20 @@ function PostDAO(database) {
     })
   }
 
+  this.addPost = function(title, author, url, callback) {
+    var post = {
+      title: title,
+      author: author,
+      url: url,
+      created_at: new Date(),
+      votes: 0
+    }
+    this.db.collection('posts').insertOne(post, function(err, result){
+      var postDoc = result
+      callback(postDoc)
+    })
+  }
+
   this.insertMany = function(){
     this.db.collection('posts').insertMany(posts)
   }

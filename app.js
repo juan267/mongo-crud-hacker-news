@@ -30,9 +30,18 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
   // ROUTES ***********************************
 
   app.get('/', function(req, res){
-
     post.getAllPosts(function(posts){
       res.render('index', {posts: posts})
+    })
+  })
+
+  app.post('/posts', function(req, res){
+    var title = req.body.title
+    var author = req.body.author
+    var url = req.body.url
+
+    post.addPost(title, author, url, function(postDoc){
+      res.redirect('/')
     })
   })
 
