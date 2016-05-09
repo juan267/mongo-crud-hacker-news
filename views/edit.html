@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Hacker News</title>
+  <link href="/static/css/styles.css" rel="stylesheet">
 </head>
 <body>
   <div class="container">
@@ -23,35 +24,16 @@
       </div>
     </div>
     <div class="main">
-      <ul>
-        {% for post in posts %}
-        <li>
-          <span>{{loop.index}}.<a href="/posts/{{post._id}}/votes">&#9650;</a>
-            <span class='post-title'>{{post.title}}</span>
-            <a href="/posts/{{post._id}}/delete">&#10008;</a><span class='post-url'>({{post.url}})</span>
-          </span>
-          <span class='post-details'>
-            {{post.votes}} points  |
-            By: {{post.author}}
-            <a href="/posts/{{post._id}}/edit">Edit</a>
-          </span>
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-    <div class="footer">
-      <p><strong>New Post</strong></p>
-      <form action="/posts" method='post'>
+      <form action="/posts/{{post._id}}/update" method="post">
         <label for="title">Title</label>
-        <input type="text" name="title">
+        <input type="text" name="title" value={{post.title}}>
         <label for="author">Author</label>
-        <input type="text" name="author">
+        <input type="text" name="author" value={{post.author}}>
         <label for="url">Url</label>
-        <input type="text" name="url">
+        <input type="text" name="url" value={{post.url}}>
         <input type="submit" value="Enviar">
       </form>
     </div>
   </div>
 </body>
 </html>
-

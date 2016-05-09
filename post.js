@@ -34,6 +34,13 @@ function PostDAO(database) {
     })
   }
 
+  this.getPost = function(id, callback) {
+    this.db.collection('posts').findOne({_id: ObjectID(id)}, function(err, result){
+      var postDoc = result
+      callback(postDoc)
+    })
+  }
+
   this.addPost = function(title, author, url, callback) {
     var post = {
       title: title,
@@ -43,6 +50,18 @@ function PostDAO(database) {
       votes: 0
     }
     this.db.collection('posts').insertOne(post, function(err, result){
+      var postDoc = result
+      callback(postDoc)
+    })
+  }
+
+  this.updatePost = function(id, title, author, url, callback) {
+    this.db.collection('posts').updateOne({_id: ObjectID(id)}, {$set: {
+      title: title,
+      author: author,
+      url: url
+    }}, function(err, result){
+      assert.equal(null, err)
       var postDoc = result
       callback(postDoc)
     })
