@@ -1,4 +1,5 @@
 var mongoClient = require('mongodb').MongoClient
+var ObjectID = require("mongodb").ObjectID
 var assert = require('assert')
 
 function PostDAO(database) {
@@ -42,6 +43,15 @@ function PostDAO(database) {
       votes: 0
     }
     this.db.collection('posts').insertOne(post, function(err, result){
+      var postDoc = result
+      callback(postDoc)
+    })
+  }
+
+  this.deletePost = function(id, callback) {
+    console.log("Remove post id", id)
+    this.db.collection('posts').remove({_id: ObjectID(id)}, 1, function(err, result){
+      assert.equal(null, err)
       var postDoc = result
       callback(postDoc)
     })

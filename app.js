@@ -35,6 +35,14 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     })
   })
 
+  app.get('/posts/:id/delete', function(req, res){
+    var id = req.params.id
+    post.deletePost(id, function(postDoc){
+      console.log(postDoc)
+      res.redirect('/')
+    })
+  })
+
   app.post('/posts', function(req, res){
     var title = req.body.title
     var author = req.body.author
@@ -44,8 +52,6 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
       res.redirect('/')
     })
   })
-
-
 
 
   // Error Handling and Start running server
