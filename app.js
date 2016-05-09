@@ -3,6 +3,7 @@ var engines = require('consolidate') // Helps us set the templating engine 'nunj
 var mongoClient = require('mongodb').MongoClient // The Mongodb Driver
 var assert = require('assert') // Assertion library to cath errors
 var bodyParser = require('body-parser') // Middleware to parse url parameters
+var PostDAO  = require('./post').PostDAO
 var app = express() // Express app
 
 
@@ -17,16 +18,27 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
   assert.equal(null, err);
   console.log('Successfully connected to mongodb database')
 
+  // MODELS ***********************************
+  var post = new PostDAO(db)
+  post.seedCollection(function(count){
+    if (count === 0) {
+      post.insertMany()
+    }
+  })
+
   // ROUTES ***********************************
 
   app.get('/', function(req, res){
-    res.render('index')
+
+    post.getAllPosts(function(posts){
+      res.render('index', {posts: posts})
+    })
   })
 
 
 
 
-  // Error Handling and Start runnung server
+  // Error Handling and Start running server
   app.use(errorHandler)
 
   function errorHandler(err, req, res, next) {
@@ -40,3 +52,4 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
      console.log('Express server listening on port %s.', port);
   })
 })
+

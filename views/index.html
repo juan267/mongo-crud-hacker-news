@@ -1,1 +1,17 @@
-<h1>Welcome to Expresss app yeahh!!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hacker News</title>
+</head>
+<body>
+  <h1>Welcome to Expresss app yeahh!!</h1>
+
+  <ul>
+    {% for post in posts %}
+      <li>Titulo: {{post.title}}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
+
