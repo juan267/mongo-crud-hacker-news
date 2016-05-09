@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Hacker News</title>
+  <link href="/static/css/styles.css" rel="stylesheet">
 </head>
 <body>
   <div class="container">
@@ -27,7 +28,7 @@
         {% for post in posts %}
         <li>
           <span>{{loop.index}}.<a href="/posts/{{post._id}}/votes">&#9650;</a>
-            <span class='post-title'>{{post.title}}</span>
+            <span class='post-title'><a href="{{post.url}}" target="_blank">{{post.title}}</a></span>
             <a href="/posts/{{post._id}}/delete">&#10008;</a><span class='post-url'>({{post.url}})</span>
           </span>
           <span class='post-details'>

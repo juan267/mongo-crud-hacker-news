@@ -35,6 +35,16 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     })
   })
 
+  app.post('/posts', function(req, res){
+    var title = req.body.title
+    var author = req.body.author
+    var url = req.body.url
+
+    post.addPost(title, author, url, function(postDoc){
+      res.redirect('/')
+    })
+  })
+
   app.get('/posts/:id/edit', function(req, res){
     var id = req.params.id
     post.getPost(id, function(postDoc){
@@ -52,6 +62,13 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     })
   })
 
+  app.get('/posts/:id/votes', function(req, res){
+    var id = req.params.id
+    post.addPostVote(id, function(postDoc){
+      res.redirect('/')
+    })
+  })
+
   app.get('/posts/:id/delete', function(req, res){
     var id = req.params.id
     post.deletePost(id, function(postDoc){
@@ -60,15 +77,6 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     })
   })
 
-  app.post('/posts', function(req, res){
-    var title = req.body.title
-    var author = req.body.author
-    var url = req.body.url
-
-    post.addPost(title, author, url, function(postDoc){
-      res.redirect('/')
-    })
-  })
 
 
   // Error Handling and Start running server

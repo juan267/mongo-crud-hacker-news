@@ -55,6 +55,15 @@ function PostDAO(database) {
     })
   }
 
+  this.addPostVote = function(id, callback) {
+    this.db.collection('posts').updateOne({_id: ObjectID(id)}, {$inc: {
+      votes: 1
+    }}, function(err, result){
+      var postDoc = result
+      callback(postDoc)
+    })
+  }
+
   this.updatePost = function(id, title, author, url, callback) {
     this.db.collection('posts').updateOne({_id: ObjectID(id)}, {$set: {
       title: title,
