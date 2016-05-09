@@ -14,7 +14,7 @@
           <strong>Hacker news |</strong>
         </div>
         <div class="nav-item">
-          new
+          <a href=""></a>new
         </div>
       </div>
       <div class="nav-section">
@@ -35,6 +35,17 @@
         </li>
         {% endfor %}
       </ul>
+    </div>
+    <div class="footer">
+      <p><strong>New Post</strong></p>
+      <form action="/posts" method='post'>
+        <label for="title">Title</label>
+        <input type="text" name="title">
+        <label for="author">Author</label>
+        <input type="text" name="author">
+        <label for="url">Url</label>
+        <input type="text" name="url">
+      </form>
     </div>
   </div>
 </body>

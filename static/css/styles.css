@@ -2,15 +2,14 @@
   margin: 0 auto;
   /*border: 5px solid goldenrod;*/
   width: 1100px;
-  min-height: 100vh;
   font-family: verdana;
 }
 
 .nav {
   display: flex;
   justify-content: space-between;
-  height: 20px;
-  background-color: #FF8000;
+  /*height: 20px;*/
+  background-color: #ff6600;
   padding: 3px;
   /*padding: 10px;*/
 }
@@ -25,7 +24,12 @@
 }
 
 .main {
-  background-color: #FFF6D0;
+  background-color: #f6f6ef;
+  border-bottom: 2px solid #ff6600;
+  padding: 10px;
+  min-height: 80vh;
+  /*height: 100vh;*/
+
 }
 
 .main ul {
@@ -51,4 +55,13 @@
 .post-details {
   color: grey;
   margin-left: 32px;
+}
+
+.footer {
+  padding-bottom:10px;
+  /*padding: 0;*/
+  background-color: #f6f6ef;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
