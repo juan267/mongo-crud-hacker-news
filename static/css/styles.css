@@ -79,15 +79,21 @@
   align-items: center;
 }
 
+.post-details > a:hover {
+  text-decoration: underline;
+}
+
 a {
   text-decoration: none;
-  color:black;
+  color: grey;
 }
 
 a[href$=votes] {
   font-size: 0.6em;
 }
-
+.post-title > a  {
+  color: black;
+}
 .post-title + a:hover  {
   color: red;
 }
