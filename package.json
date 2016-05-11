@@ -10,9 +10,16 @@
   "dependencies": {
     "body-parser": "*",
     "consolidate": "*",
+    "cookie-parser": "~1.0.1",
     "express": "*",
+    "express-session": "^1.13.0",
     "mongodb": "*",
-    "nunjucks": "*"
+    "mongoose": "^4.4.16",
+    "nunjucks": "*",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "bcrypt-nodejs" : "*",
+    "connect-flash" : "*"
   },
   "author": "juan267",
   "license": "ISC"

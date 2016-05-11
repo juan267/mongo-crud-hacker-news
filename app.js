@@ -4,7 +4,26 @@ var mongoClient = require('mongodb').MongoClient // The Mongodb Driver
 var assert = require('assert') // Assertion library to cath errors
 var bodyParser = require('body-parser') // Middleware to parse url parameters
 var PostDAO  = require('./post').PostDAO
+var UserDAO = require('./user').UserDAO
+var mongoose = require('mongoose');
 var app = express() // Express app
+
+// Configuring Passport
+var passport = require('passport');
+var expressSession = require('express-session');
+// TODO - Why Do we need this key ?
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+ // Using the flash middleware provided by connect-flash to store messages in session
+ // and displaying in templates
+var flash = require('connect-flash');
+app.use(flash());
+
+// Initialize Passport
+var initPassport = require('./passport/init');
+initPassport(passport);
 
 
 app.engine('html', engines.nunjucks); // Set nunjucks as the templating engine to work on documents ending with the extension html
@@ -14,6 +33,7 @@ app.use('/static', express.static(__dirname + '/static')); // Use static files
 app.use(bodyParser.urlencoded({extended: true})) // Url parser configuration
 
 var databaseName = 'hacker-news' // Set to the mondodb database to be use
+mongoose.connect("mongodb://localhost:27017/"+databaseName);
 
 mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db){
   assert.equal(null, err);
@@ -26,15 +46,16 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
       post.insertMany()
     }
   })
-
   // ROUTES ***********************************
 
+  // INDEX
   app.get('/', function(req, res){
     post.getAllPosts(function(posts){
-      res.render('index', {posts: posts})
+      res.render('index', {posts: posts, user: req.user, message: req.flash('message')})
     })
   })
 
+  // CREATE POST
   app.post('/posts', function(req, res){
     var title = req.body.title
     var author = req.body.author
@@ -47,6 +68,7 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     })
   })
 
+  // EDIT POST
   app.get('/posts/:id/edit', function(req, res){
     var id = req.params.id
     post.getPost(id, function(postDoc){
@@ -54,6 +76,7 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     })
   })
 
+  // UPDATE POST
   app.post('/posts/:id/update', function(req, res){
     var id = req.params.id
     var title = req.body.title
@@ -64,6 +87,17 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     })
   })
 
+  // DELETE POST
+  app.get('/posts/:id/delete', function(req, res){
+    var id = req.params.id
+    post.deletePost(id, function(postDoc){
+      post.getAllPosts(function(posts){
+        res.render('_post', {posts: posts})
+      })
+    })
+  })
+
+  // CREATE VOTE
   app.get('/posts/:id/votes', function(req, res){
     var id = req.params.id
     post.addPostVote(id, function(postDoc){
@@ -74,15 +108,35 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     })
   })
 
-  app.get('/posts/:id/delete', function(req, res){
-    var id = req.params.id
-    post.deletePost(id, function(postDoc){
-      post.getAllPosts(function(posts){
-        res.render('_post', {posts: posts})
-      })
-    })
+  // NEW LOGIN
+  app.get('/login', function(req, res){
+    res.render('login', {message: req.flash("message")})
   })
 
+  //CREATE SESSION
+  app.post('/login', passport.authenticate('login', {
+      successRedirect: '/',
+      failureRedirect: '/login',
+      failureFlash : true
+  }));
+
+  // DELETE SESSION
+  app.get('/logout', function(req, res){
+    req.logout()
+    res.redirect('/');
+  })
+
+  // NEW USER
+  app.get('/signup', function(req, res){
+    res.render('signup',{message: req.flash("message")})
+  })
+
+  // CREATE USER
+  app.post('/signup', passport.authenticate('signup', {
+    successRedirect: '/',
+    failureRedirect: '/signup',
+    failureFlash : true
+  }))
 
 
   // Error Handling and Start running server

@@ -19,11 +19,20 @@
       </div>
       <div class="nav-section">
         <div class="nav-item">
-          Login
+          {% if user %}
+          {{user.username}} |
+          <a href="/logout">Log Out</a>
+          {% else%}
+          <a href="/login">Login</a> |
+          <a href="/signup">Sign Up</a>
+          {% endif %}
         </div>
       </div>
     </div>
     <div class="main">
+      {% if message %}
+        <p>{{message}}</p>
+      {% endif %}
       <ul>
         {% for post in posts %}
         <li id="{{post._id}}">
