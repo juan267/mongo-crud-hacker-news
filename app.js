@@ -25,6 +25,7 @@ app.use(flash());
 var initPassport = require('./passport/init');
 initPassport(passport);
 
+console.log('Enviroment', process.argv[2])
 
 app.engine('html', engines.nunjucks); // Set nunjucks as the templating engine to work on documents ending with the extension html
 app.set('view engine', 'html') // Only use nunjucks on file ending with html
@@ -32,10 +33,17 @@ app.set('views', __dirname + '/views') // Where to find the view files
 app.use('/static', express.static(__dirname + '/static')); // Use static files
 app.use(bodyParser.urlencoded({extended: true})) // Url parser configuration
 
-var databaseName = 'hacker-news' // Set to the mondodb database to be use
-mongoose.connect("mongodb://localhost:27017/"+databaseName);
 
-mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db){
+if (process.argv[2] == 'production') {
+  var mongoAddress = "mongodb://heroku_mhh9gqnm:41m182bd1mnlv9mhfreu8di60m@ds021182.mlab.com:21182/heroku_mhh9gqnm"
+} else {
+  var mongoAddress = 'mongodb://localhost:27017/'+databaseName
+};
+
+var databaseName = 'hacker-news' // Set to the mondodb database to be use
+mongoose.connect(mongoAddress);
+
+mongoClient.connect(mongoAddress, function(err, db){
   assert.equal(null, err);
   console.log('Successfully connected to mongodb database')
 
