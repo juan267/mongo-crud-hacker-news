@@ -65,14 +65,16 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
   app.get('/posts/:id/votes', function(req, res){
     var id = req.params.id
     post.addPostVote(id, function(postDoc){
-      res.redirect('/')
+      post.getPost(id, function(postDoc){
+        res.setHeader('Content-type', 'application/json')
+        res.send(JSON.stringify(postDoc))
+      })
     })
   })
 
   app.get('/posts/:id/delete', function(req, res){
     var id = req.params.id
     post.deletePost(id, function(postDoc){
-      console.log(postDoc)
       res.redirect('/')
     })
   })
