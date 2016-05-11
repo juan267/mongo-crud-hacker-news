@@ -39,9 +39,9 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     var title = req.body.title
     var author = req.body.author
     var url = req.body.url
-
     post.addPost(title, author, url, function(postDoc){
-      res.redirect('/')
+      postDoc.ops[0].index = parseInt(req.body.index) + 1
+      res.render('_post', {post: postDoc.ops[0]})
     })
   })
 

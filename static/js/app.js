@@ -1,7 +1,5 @@
 $('document').ready(function(){
 
-  var post = "<li id='{{post._id}}''><span>{{loop.index}}.<a href='/posts/{{post._id}}/votes'>&#9650;</a><span class='post-title'><a href='{{post.url}}' target='_blank'>{{post.title}}</a></span><a href='/posts/{{post._id}}/delete'>&#10008;</a><span class='post-url'>({{post.url}})</span></span><span class='post-details'>{{post.votes}} points  |By: {{post.author}}<a href='/posts/{{post._id}}/edit'>Edit</a></span></li>"
-
   $('a[href$=delete]').on('click', function(e){
     e.preventDefault()
     var that = this
@@ -25,5 +23,20 @@ $('document').ready(function(){
     })
   })
 
+  $('form[action$=posts]').on('submit', function(e){
+    e.preventDefault()
+    var index = parseInt($($('ul li:last-child span')[0]).html().substring(0,2))
+    e.target.index.value = index
+    var data = $(this).serialize()
+    var that = this
+    $.ajax({
+      url: this.action,
+      type: "POST",
+      data: data
+    }).done(function(data){
+      $(that)[0].reset()
+      $('ul').append(data)
+    })
+  })
 
 })
