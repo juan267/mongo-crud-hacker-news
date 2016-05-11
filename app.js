@@ -40,8 +40,10 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
     var author = req.body.author
     var url = req.body.url
     post.addPost(title, author, url, function(postDoc){
-      postDoc.ops[0].index = parseInt(req.body.index) + 1
-      res.render('_post', {post: postDoc.ops[0]})
+      // postDoc.ops[0].index = parseInt(req.body.index) + 1
+      post.getAllPosts(function(posts){
+        res.render('_post', {posts: posts})
+      })
     })
   })
 
@@ -75,7 +77,9 @@ mongoClient.connect('mongodb://localhost:27017/'+databaseName, function(err, db)
   app.get('/posts/:id/delete', function(req, res){
     var id = req.params.id
     post.deletePost(id, function(postDoc){
-      res.redirect('/')
+      post.getAllPosts(function(posts){
+        res.render('_post', {posts: posts})
+      })
     })
   })
 
