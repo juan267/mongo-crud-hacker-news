@@ -8,7 +8,9 @@
     "start": "nodemon app.js"
   },
   "dependencies": {
+    "bcrypt-nodejs": "*",
     "body-parser": "*",
+    "connect-flash": "*",
     "consolidate": "*",
     "cookie-parser": "~1.0.1",
     "express": "*",
@@ -18,8 +20,7 @@
     "nunjucks": "*",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "bcrypt-nodejs" : "*",
-    "connect-flash" : "*"
+    "serve-favicon": "^2.3.0"
   },
   "author": "juan267",
   "license": "ISC"

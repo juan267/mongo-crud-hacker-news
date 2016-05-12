@@ -3,21 +3,23 @@ var engines = require('consolidate') // Helps us set the templating engine 'nunj
 var mongoClient = require('mongodb').MongoClient // The Mongodb Driver
 var assert = require('assert') // Assertion library to cath errors
 var bodyParser = require('body-parser') // Middleware to parse url parameters
-var PostDAO  = require('./post').PostDAO
-var UserDAO = require('./user').UserDAO
+var PostDAO  = require('./models/post').PostDAO
 var mongoose = require('mongoose');
+var favicon = require('serve-favicon');
 var app = express() // Express app
 
 // Configuring Passport
 var passport = require('passport');
 var expressSession = require('express-session');
-// TODO - Why Do we need this key ?
 app.use(expressSession({secret: 'mySecretKey'}));
 app.use(passport.initialize());
 app.use(passport.session());
 
- // Using the flash middleware provided by connect-flash to store messages in session
- // and displaying in templates
+//Favicon middleware
+app.use(favicon(__dirname + '/static/img/hacker.ico'));
+
+// Using the flash middleware provided by connect-flash to store messages in session
+// and displaying in templates
 var flash = require('connect-flash');
 app.use(flash());
 
@@ -25,7 +27,6 @@ app.use(flash());
 var initPassport = require('./passport/init');
 initPassport(passport);
 
-console.log('Enviroment', process.argv[2])
 
 app.engine('html', engines.nunjucks); // Set nunjucks as the templating engine to work on documents ending with the extension html
 app.set('view engine', 'html') // Only use nunjucks on file ending with html
@@ -33,14 +34,14 @@ app.set('views', __dirname + '/views') // Where to find the view files
 app.use('/static', express.static(__dirname + '/static')); // Use static files
 app.use(bodyParser.urlencoded({extended: true})) // Url parser configuration
 
-
+// Set up database path
+var databaseName = 'hacker-news' // Set to the mondodb database to be use
 if (process.argv[2] == 'production') {
   var mongoAddress = "mongodb://heroku_mhh9gqnm:41m182bd1mnlv9mhfreu8di60m@ds021182.mlab.com:21182/heroku_mhh9gqnm"
 } else {
   var mongoAddress = 'mongodb://localhost:27017/'+databaseName
 };
 
-var databaseName = 'hacker-news' // Set to the mondodb database to be use
 mongoose.connect(mongoAddress);
 
 mongoClient.connect(mongoAddress, function(err, db){
